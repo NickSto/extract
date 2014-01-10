@@ -4,7 +4,7 @@ import re
 import sys
 from optparse import OptionParser
 
-OPT_DEFAULTS = {'start':'', 'end':'', 'include':False, 'literal':False,
+OPT_DEFAULTS = {'start':'', 'end':'', 'exclude':False, 'literal':False,
   'nums':False}
 USAGE = """USAGE: %prog [start pattern] [end pattern] [file name]
        cat file | %prog [start pattern] [end pattern]
@@ -32,9 +32,9 @@ def main():
     default=OPT_DEFAULTS.get('literal'),
     help='Use the pattern(s) as a literal string to find in the matching line, '
       +'not a regex.')
-  parser.add_option('-i', '--include', dest='include', action='store_true',
-    default=OPT_DEFAULTS.get('include'),
-    help='Include the lines that match the start and/or end pattern.')
+  parser.add_option('-E', '--exclude', dest='exclude', action='store_true',
+    default=OPT_DEFAULTS.get('exclude'),
+    help='Exclude the lines that match the start and/or end pattern.')
 
   (options, arguments) = parser.parse_args()
 
@@ -88,17 +88,17 @@ def main():
     line_num += 1
     if options.nums:
       # don't print if we're before the starting line
-      # (or if we're on it, and "include" is not enabled)
-      if line_num < start or (line_num == start and not options.include):
+      # (or if we're on it, and "exclude" is enabled)
+      if line_num < start or (line_num == start and options.exclude):
         continue
       # don't print if we're past the ending line
-      # (or if we're on it, and "include" is not enabled)
-      if line_num > end or (line_num == end and not options.include):
+      # (or if we're on it, and "exclude" is enabled)
+      if line_num > end or (line_num == end and options.exclude):
         continue
     else:
       if not started and is_match(start, line, options):
         started = True
-        if not options.include:
+        if options.exclude:
           continue
       if not started:
         continue
@@ -106,7 +106,7 @@ def main():
         continue
       elif end and is_match(end, line, options):
         ended = True
-        if not options.include:
+        if options.exclude:
           continue
     sys.stdout.write(line)
 
