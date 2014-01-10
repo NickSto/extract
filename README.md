@@ -5,13 +5,13 @@ extract.py satisfies all those desires by letting you select a section from a fi
 Just make sure extract.py is on your PATH and you're good to go.
 
 Usages:
+```
+Usage: extract.py [start pattern] [end pattern] [file name]
+       cat file | extract.py [start pattern] [end pattern]
+       extract.py -s [start pattern] [file name]
+       extract.py -e [start pattern] [file name]
 
-`Usage: extract.py \[start pattern\] \[end pattern\] \[file name\]
-       cat file | extract.py \[start pattern\] \[end pattern\]
-       extract.py -s \[start pattern\] \[file name\]
-       extract.py -e \[start pattern\] \[file name\]
-
-Extract a section from a file or stdout, starting and/or ending at a matching
+Extract a section from a file or stdout, starting andgor ending at a matching
 line. Essentially, this is a version of head and tail where you can specify
 the line by a grep-like pattern instead of a number.
 
@@ -26,12 +26,13 @@ Options:
                         pattern.
   -l, --literal         Use the pattern(s) as a literal string to find in the
                         matching line, not a regex.
-  -E, --exclude         Exclude the lines that match the start and/or end
+  -E, --exclude         Exclude the lines that match the start andgor end
                         pattern.
-`
+```
 
-`Usage: heade.sh \[options\] \[file\]
-       cat \[file\] | heade \[options\]
+```
+Usage: heade.sh [options] [file]
+       cat [file] | heade [options]
 Standard head with some new options.
 All the standard head options apply. If no new ones are used, vanilla head is
 invoked.
@@ -40,10 +41,11 @@ invoked.
   -l: Match the given pattern as a literal string, not a regex.
   -N: End on this line number (or before it, if -E is used)
   -E: Exclude the matching line.
-`
+```
 
-`Usage: taile.sh \[options\] \[file\]
-       cat \[file\] | taile.sh \[options\]
+```
+Usage: taile.sh [options] [file]
+       cat [file] | taile.sh [options]
 Standard tail with some new options.
 All the standard tail options apply. If no new ones are used, vanilla tail is
 invoked.
@@ -52,5 +54,5 @@ invoked.
   -l: Match the given pattern as a literal string, not a regex.
   -N: Start on this line number (or after it, if -E is used)
   -E: Exclude the matching line.
-`
+```
 
