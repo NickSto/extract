@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ue
 
-USAGE="USAGE: $(basename $0) [options] [file]
+USAGE="Usage: $(basename $0) [options] [file]
        cat [file] | $(basename $0) [options]
 Standard head with some new options.
 All the standard head options apply. If no new ones are used, vanilla head is
@@ -60,3 +60,4 @@ elif [[ "$linenum" ]]; then
 fi
 
 exec $cmd -e $end $nums $literal $exclude $infile
+
