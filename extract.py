@@ -6,10 +6,10 @@ from optparse import OptionParser
 
 OPT_DEFAULTS = {'start':'', 'end':'', 'exclude':False, 'literal':False,
   'nums':False}
-USAGE = """USAGE: %prog [start pattern] [end pattern] [file name]
-       cat file | %prog [start pattern] [end pattern]
-       %prog -s [start pattern] [file name]
-       %prog -e [start pattern] [file name]"""
+USAGE = """USAGE: %prog [options] start_pattern end_pattern filename
+       cat filename | %prog [options] start_pattern end_pattern
+       %prog [options] -s start_pattern filename
+       %prog [options] -e end_pattern filename"""
 DESCRIPTION = """Extract a section from a file or stdout, starting and/or ending
 at a matching line. Essentially, this is a version of head and tail where you
 can specify the line by a grep-like pattern instead of a number."""

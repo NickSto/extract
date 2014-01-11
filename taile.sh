@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 set -ue
 
-USAGE="Usage: $(basename $0) [options] [file]
-       cat [file] | $(basename $0) [options]
+USAGE="Usage: $(basename $0) [options] pattern|line_num filename
+       cat filename | $(basename $0) [options] pattern|line_num
 Standard tail with some new options.
-All the standard tail options apply. If no new ones are used, vanilla tail is
-invoked.
-  -p: Print all the lines after (and including) the first one that contains the
-      given pattern. By default it is interpreted as a (proper, Python) regex.
+Print all the lines after (and including) the first one matching the given
+pattern or line number. Patterns can be full (Python) regex. Standard tail
+options can be given instead and the built-in tail will be invoked.
+  -N: Required if using a line number.
   -l: Match the given pattern as a literal string, not a regex.
-  -N: Start on this line number (or after it, if -E is used)
   -E: Exclude the matching line."
 
 if which extract >/dev/null 2>/dev/null; then
@@ -21,42 +20,39 @@ else
   exit 1
 fi
 
-vanilla="true"; pattern=""; linenum=""; literal=""; exclude=""
-while getopts ":p:N:lEh" opt; do
+vanilla="true"; nums=""; literal=""; exclude=""
+while getopts ":NlEh" opt; do
   case "$opt" in
-    p) pattern=${OPTARG}
-       vanilla=""
-      ;;
-    N) linenum=${OPTARG}
-       vanilla=""
-      ;;
+    N) nums="-n"
+       vanilla="";;
     l) literal="-l"
-       vanilla=""
-      ;;
+       vanilla="";;
     E) exclude="-E"
-       vanilla=""
-      ;;
+       vanilla="";;
     h) echo "$USAGE"
-       exit
-      ;;
+       exit;;
   esac
 done
+
+
+if [[ $OPTIND -le $# ]]; then
+  # positional arguments present
+  vanilla=""
+  infile=""
+  start=${@:$OPTIND:1}
+  if [[ ${@:$OPTIND+1:1} ]]; then
+    infile=${@:$OPTIND+1:1}
+  fi
+fi
 
 if [[ "$vanilla" ]]; then
   exec tail $@
 fi
 
-infile=${@:$OPTIND:1}
-
-nums=""
-if [[ "$pattern" ]] && [[ "$linenum" ]]; then
-  echo "Error: Do not give both a -p pattern and a -N line number." >&2
+if [[ ${infile:0:1} == '-' ]] || [[ ${start:0:1} == '-' ]]; then
+  echo -e "Error: must give options before positional arguments.\n" >&2
+  echo "$USAGE"
   exit 1
-elif [[ "$pattern" ]]; then
-  start="$pattern"
-elif [[ "$linenum" ]]; then
-  start="$linenum"
-  nums="-n"
 fi
 
 exec $cmd -s $start $nums $literal $exclude $infile
