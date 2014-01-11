@@ -5,6 +5,7 @@ extract.py satisfies all those desires by letting you select a section from a fi
 Just make sure extract.py is on your PATH and you're good to go.
 
 Usages:
+  
 extract.py
 ```
 Usage: extract.py [options] start_pattern end_pattern filename
@@ -30,7 +31,7 @@ Options:
   -E, --exclude         Exclude the lines that match the start andgor end
                         pattern.
 ```
-
+  
 heade.sh
 ```
 Usage: heade [options] pattern|line_num filename
@@ -43,7 +44,7 @@ options can be given instead and the built-in head will be invoked.
   -l: Match the given pattern as a literal string, not a regex.
   -E: Exclude the matching line.
 ```
-
+  
 taile.sh
 ```
 Usage: taile.sh [options] pattern|line_num filename
