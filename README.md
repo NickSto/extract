@@ -1,6 +1,6 @@
 Have you ever been using head, but wanted to set the ending line by a grep pattern instead of a line number? Or been using tail and wanted to set the starting line by a line number instead of doing math to find out how far the line is from the end? Better yet, have you found yourself using head + tail to extract sections from the middle of a file, but got tired of doing the math to get the right lines?
 
-extract.py satisfies all those desires by letting you select a section from a file (or stdin) by patterns or line numbers. And then heade.sh and taile.sh use extract.py to extend the capabilities of standard head and tail. They add those options you wish head and tail had, and use extract.py to execute them.
+extract.py satisfies all those desires by letting you select a section from a file (or stdin) by patterns or line numbers. And then heade and taile are wrappers for extract.py which extend the capabilities of standard head and tail. They add those options you wish head and tail had.
 
 Just make sure extract.py is on your PATH and you're good to go.
 
@@ -32,7 +32,7 @@ Options:
                         pattern.
 ```
   
-heade.sh
+heade
 ```
 Usage: heade [options] pattern|line_num filename
        cat filename | heade [options] pattern|line_num
@@ -45,10 +45,10 @@ options can be given instead and the built-in head will be invoked.
   -E: Exclude the matching line.
 ```
   
-taile.sh
+taile
 ```
-Usage: taile.sh [options] pattern|line_num filename
-       cat filename | taile.sh [options] pattern|line_num
+Usage: taile [options] pattern|line_num filename
+       cat filename | taile [options] pattern|line_num
 Standard tail with some new options.
 Print all the lines after (and including) the first one matching the given
 pattern or line number. Patterns can be full (Python) regex. Standard tail
